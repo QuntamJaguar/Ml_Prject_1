@@ -1,27 +1,27 @@
-import setuptools
+from setuptools import find_packages,setup
 from typing import List
 
-Hyphen_e = '-e .'
+HYPEN_E_DOT='-e .'
+def get_requirements(file_path:str)->List[str]:
+    '''
+    this function will return the list of requirements
+    '''
+    requirements=[]
+    with open(file_path) as file_obj:
+        requirements=file_obj.readlines()
+        requirements=[req.replace("\n","") for req in requirements]
 
-def get_requirements(filepath: str) -> List[str]: 
-    """Returns list of requirements
-    Input = Filepath(str),
-    Output= List of required packages(str)
-    """
-    requirements = []
-    try:
-        with open(filepath) as file_object:
-            requirements = [line.replace("\n", "") for line in file_object.readlines()]
-            requirements = [line for line in requirements if Hyphen_e not in line]
-    except FileNotFoundError:
-        print(f"Requirements file not found at {filepath}")
+        if HYPEN_E_DOT in requirements:
+            requirements.remove(HYPEN_E_DOT)
+    
     return requirements
 
-setuptools.setup(
-    name="MlProject",
-    version="0.0.1",
-    author="Chirag",
-    author_email="chirag@example.com",  # Provide a valid email address here
-    description="A small python package for ml app",
-    install_requires=get_requirements("Requirements.txt")
+setup(
+name='mlproject',
+version='0.0.1',
+author='Chirag',
+author_email='chiragyadav1009@gmail.com',
+packages=find_packages(),
+install_requires=get_requirements('requirements.txt')
+
 )
